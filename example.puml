@@ -1,0 +1,106 @@
+@startuml user_requests_erd_example
+'Версия: 1.0
+'Автор: Окунев Е.Е. (okunev.evgeni@gmail.com)
+
+!function $pk($a)
+!return "<color:RoyalBlue>" + $a + " <<PK>></color>"
+!endfunction
+
+!function $unique($a)
+!return "<color:Crimson>" + $a + " <<unique>></color>"
+!endfunction
+
+!function $setBold($a)
+!return "<b>" + $a + " </b>"
+!endfunction
+
+skinparam BackgroundColor SeaShell
+skinparam LegendBackgroundColor MistyRose
+skinparam LegendBorderColor PaleVioletRed
+skinparam LegendFontColor PaleVioletRed
+
+skinparam Class {
+    HeaderBackgroundColor PaleGreen
+}
+
+'skinparam linetype ortho
+skinparam TitleFontColor Sienna
+
+Header Пример ER-диаграммы
+Title ER-диаграмма "Заявка пользователя"
+
+entity "$setBold("Пользователь (users)")" as users {
+    * $pk("id")
+    ..
+    * $unique("username")
+    * password
+    * name
+    * surname
+    patronimyc
+    * email
+    is_active <<default true>>
+    birth_date
+    created_at
+    updated_at
+}
+
+entity "$setBold("Заявка (requests)")" as requests {
+    * $pk("id")
+    ..
+    * auhor_id <<users.uuid FK>>
+    * service_id <<service.id FK>>
+    * status_id <<statuses>>
+    * description
+    attached_file_id <<files.uuid FK>>
+    created_at
+    created_by <<user.uuid FK>>
+    updated_at
+    updated_by <<user.uuid FK>>
+}
+
+entity "$setBold("Сервис (services)")" as services {
+    * $pk("id")
+    ..
+    * name
+    * is_enable <<default true>>
+    default_route
+}
+
+entity "$setBold("Вложение (files)")" as files {
+    * $pk("id")
+    ..
+    * size
+    * name
+    * url
+    mime_type
+    created_at
+    created_by <<user.uuid FK>>
+    updated_at
+    updated_by <<user.uuid FK>>
+}
+
+entity "$setBold("Статус (statuses)")" as statuses {
+    * $pk("id")
+    ..
+    * name
+}
+
+users::id ||-o{ requests::auhor_id : создает
+users::id ||-o{ requests::updated_by : изменяет
+users::id ||-----o{ requests::created_by
+
+requests::service_id }o-down-|| services::id : принадлежит
+requests::status_id }o-up-|| statuses::id
+requests::attached_file_id ||-right-o| files::id
+
+
+legend right
+$setBold("Условные обозначения:")
+* - обязательное поле
+PK - первичный ключ
+FK - внешний ключ
+end legend
+
+footer Evgeni Okunev, 2023
+
+@enduml
