@@ -75,4 +75,4 @@
 ## Полезные ссылки
 
 - [Официальная документация PlantUML](https://plantuml.com/)
-- [Примеры E/R диаграмм в PlantUML](https://plantuml.com/ru/ie-diagram)
+- [Примеры E/R диаграмм в PlantUML](https://plantuml.com/ru/er-diagram/)
