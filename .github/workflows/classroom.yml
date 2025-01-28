@@ -33,7 +33,7 @@ jobs:
         uses: classroom-resources/autograding-io-grader@v1
         with:
           test-name: "Количество сущностей (библиотека)"
-          command: "pytest .github/workflows/test_erd.py -v -k test_entity_count"
+          command: "pytest .tests/test_erd.py -v -k test_entity_count"
           expected-output: "PASSED"
           comparison-method: regex
           timeout: 10
@@ -43,7 +43,7 @@ jobs:
         uses: classroom-resources/autograding-io-grader@v1
         with:
           test-name: "Типы связей (библиотека)"
-          command: "pytest .github/workflows/test_erd.py -v -k test_relationship_types"
+          command: "pytest .tests/test_erd.py -v -k test_relationship_types"
           expected-output: "PASSED"
           comparison-method: regex
           timeout: 10
@@ -54,7 +54,7 @@ jobs:
         uses: classroom-resources/autograding-io-grader@v1
         with:
           test-name: "Количество сущностей (адреса)"
-          command: "pytest .github/workflows/test_address_erd.py -v -k test_address_entity_count"
+          command: "pytest .tests/test_address_erd.py -v -k test_address_entity_count"
           expected-output: "PASSED"
           comparison-method: regex
           timeout: 10
@@ -64,7 +64,7 @@ jobs:
         uses: classroom-resources/autograding-io-grader@v1
         with:
           test-name: "Типы связей (адреса)"
-          command: "pytest .github/workflows/test_address_erd.py -v -k test_address_relationship_types"
+          command: "pytest .tests/test_address_erd.py -v -k test_address_relationship_types"
           expected-output: "PASSED"
           comparison-method: regex
           timeout: 10
@@ -75,7 +75,7 @@ jobs:
         uses: classroom-resources/autograding-io-grader@v1
         with:
           test-name: "Количество сущностей (матчи)"
-          command: "pytest .github/workflows/test_match_erd.py -v -k test_match_entity_count"
+          command: "pytest .tests/test_match_erd.py -v -k test_match_entity_count"
           expected-output: "PASSED"
           comparison-method: regex
           timeout: 10
@@ -85,7 +85,7 @@ jobs:
         uses: classroom-resources/autograding-io-grader@v1
         with:
           test-name: "Типы связей (матчи)"
-          command: "pytest .github/workflows/test_match_erd.py -v -k test_match_relationship_types"
+          command: "pytest .tests/test_match_erd.py -v -k test_match_relationship_types"
           expected-output: "PASSED"
           comparison-method: regex
           timeout: 10
@@ -96,7 +96,7 @@ jobs:
         uses: classroom-resources/autograding-io-grader@v1
         with:
           test-name: "Количество сущностей (родители)"
-          command: "pytest .github/workflows/test_parents_erd.py -v -k test_parents_entity_count"
+          command: "pytest .tests/test_parents_erd.py -v -k test_parents_entity_count"
           expected-output: "PASSED"
           comparison-method: regex
           timeout: 10
@@ -106,7 +106,7 @@ jobs:
         uses: classroom-resources/autograding-io-grader@v1
         with:
           test-name: "Типы связей (родители)"
-          command: "pytest .github/workflows/test_parents_erd.py -v -k test_parents_relationship_types"
+          command: "pytest .tests/test_parents_erd.py -v -k test_parents_relationship_types"
           expected-output: "PASSED"
           comparison-method: regex
           timeout: 10
