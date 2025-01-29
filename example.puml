@@ -47,15 +47,9 @@ entity "$setBold("Пользователь (users)")" as users {
 entity "$setBold("Заявка (requests)")" as requests {
     * $pk("id")
     ..
-    * auhor_id <<users.uuid FK>>
-    * service_id <<service.id FK>>
-    * status_id <<statuses>>
     * description
-    attached_file_id <<files.uuid FK>>
     created_at
-    created_by <<user.uuid FK>>
     updated_at
-    updated_by <<user.uuid FK>>
 }
 
 entity "$setBold("Сервис (services)")" as services {
@@ -74,9 +68,7 @@ entity "$setBold("Вложение (files)")" as files {
     * url
     mime_type
     created_at
-    created_by <<user.uuid FK>>
     updated_at
-    updated_by <<user.uuid FK>>
 }
 
 entity "$setBold("Статус (statuses)")" as statuses {
@@ -85,20 +77,19 @@ entity "$setBold("Статус (statuses)")" as statuses {
     * name
 }
 
-users::id ||-o{ requests::auhor_id : создает
-users::id ||-o{ requests::updated_by : изменяет
-users::id ||-----o{ requests::created_by
+users ||-o{ requests : создает
+users ||-o{ requests : изменяет
+users ||-----o{ requests
 
-requests::service_id }o-down-|| services::id : принадлежит
-requests::status_id }o-up-|| statuses::id
-requests::attached_file_id ||-right-o| files::id
+requests }o-down-|| services : принадлежит
+requests }o-up-|| statuses
+requests ||-right-o| files
 
 
 legend right
 $setBold("Условные обозначения:")
 * - обязательное поле
 PK - первичный ключ
-FK - внешний ключ
 end legend
 
 footer Evgeni Okunev, 2023
