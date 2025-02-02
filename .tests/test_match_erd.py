@@ -17,13 +17,15 @@ def test_match_entity_count(puml_content):
         f"Ожидается 3 сущности, найдено {len(entities)}"
 
 def test_match_relationship_types(puml_content):
-    """Проверка типов связей в диаграмме матчей"""
-    # Связи Матч-Команда (должны быть как one-to-many, так как одна команда участвует во многих матчах)
-    team_relations = len(re.findall(r'[""]?\*[""]?\s*--[>o]\s*[""]?1[""]?', puml_content))
-    assert team_relations == 3, \
-        f"Ожидается 3 связи many-to-one, найдено {team_relations}"
+    """Проверка количества различных типов связей"""
 
-    # Проверка отсутствия many-to-many связей
-    many_to_many = len(re.findall(r'[""]?\*[""]?\s*--[>o]\s*[""]?\*[""]?', puml_content))
-    assert many_to_many == 0, \
-        f"Не должно быть связей many-to-many, найдено {many_to_many}"
+    one_to_many_pattern = r'(?:\|\||o\|)--(?:o\{|\|\{)'
+    one_to_many = len(re.findall(one_to_many_pattern, puml_content))
+    assert one_to_many == 3, f"Ожидается 5 связей один-ко-многим, найдено {one_to_many}"
+
+    many_to_many = len(re.findall(r'\}o--o\{', puml_content))
+    assert many_to_many == 0, f"Ожидается 1 связь многие-ко-многим, найдено {many_to_many}"
+
+    one_to_one_pattern = r'(?:\|\||o\||\|o)--(?:\|\||o\||\|o)'
+    one_to_one = len(re.findall(one_to_one_pattern, puml_content))
+    assert one_to_one == 0, f"Ожидается 0 связей один-к-одному, найдено {one_to_one}"

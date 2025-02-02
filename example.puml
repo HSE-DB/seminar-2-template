@@ -1,6 +1,4 @@
-@startuml user_requests_erd_example
-'Версия: 1.0
-'Автор: Окунев Е.Е. (okunev.evgeni@gmail.com)
+@startuml ERD_Example
 
 !function $pk($a)
 !return "<color:RoyalBlue>" + $a + " <<PK>></color>"
@@ -22,76 +20,69 @@ skinparam LegendFontColor PaleVioletRed
 skinparam Class {
     HeaderBackgroundColor PaleGreen
 }
-
-'skinparam linetype ortho
 skinparam TitleFontColor Sienna
 
-Header Пример ER-диаграммы
-Title ER-диаграмма "Заявка пользователя"
+Header Пример ER‑диаграммы
+Title ER‑диаграмма "Пример базы данных"
 
-entity "$setBold("Пользователь (users)")" as users {
-    * $pk("id")
-    ..
-    * $unique("username")
-    * password
-    * name
-    * surname
-    patronimyc
-    * email
-    is_active <<default true>>
-    birth_date
-    created_at
-    updated_at
+' ------------------------- Сущности -------------------------
+entity "$setBold("Пользователь")" as User {
+    * $pk("Идентификатор")
+    * Логин
+    * Пароль
+    Имя
+    Фамилия
+    Дата_рождения
 }
 
-entity "$setBold("Заявка (requests)")" as requests {
-    * $pk("id")
-    ..
-    * description
-    created_at
-    updated_at
+entity "$setBold("Заказ")" as Order {
+    * $pk("Номер_заказа")
+    * Описание
+    Дата_создания
+    Статус
 }
 
-entity "$setBold("Сервис (services)")" as services {
-    * $pk("id")
-    ..
-    * name
-    * is_enable <<default true>>
-    default_route
+entity "$setBold("Продукт")" as Product {
+    * $pk("Код_продукта")
+    * Название
+    Цена
+    Количество
 }
 
-entity "$setBold("Вложение (files)")" as files {
-    * $pk("id")
-    ..
-    * size
-    * name
-    * url
-    mime_type
-    created_at
-    updated_at
+entity "$setBold("Платеж")" as Payment {
+    * $pk("Номер_платежа")
+    Дата_платежа
+    Сумма
 }
 
-entity "$setBold("Статус (statuses)")" as statuses {
-    * $pk("id")
-    ..
-    * name
+entity "$setBold("Склад")" as Warehouse {
+    * $pk("Код_склада")
+    Адрес
+    Вместимость
 }
 
-users ||-o{ requests : создает
-users ||-o{ requests : изменяет
-users ||-----o{ requests
+' ------------------------- Связи -------------------------
+' Один к одному:
+User ||--|| Payment : "Платежный профиль"
 
-requests }o-down-|| services : принадлежит
-requests }o-up-|| statuses
-requests ||-right-o| files
+' Один ко многим:
+User ||--o{ Order : "Создаёт"
+' Обратная сторона (много к одному):
+Order }o--|| User : "Принадлежит"
 
+' Многие ко многим:
+Order }o--o{ Product : "Содержит"
 
+' Дополнительный пример one-to-many:
+Warehouse ||--o{ Product : "Размещает"
+
+' ------------------------- Легенда -------------------------
 legend right
 $setBold("Условные обозначения:")
-* - обязательное поле
-PK - первичный ключ
+|| или o|  - один к одному (опционально - обязательно)
+|o или |{  - один ко многим (опционально - обязательно)
+}o или |{  - многие ко многим (опционально - обязательно)
+}o--o{   - многие ко многим (опциально)
 end legend
-
-footer Evgeni Okunev, 2023
 
 @enduml
