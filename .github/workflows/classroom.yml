@@ -25,7 +25,10 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest
+          python -m pip install -r requirements-test.txt
+
+      - name: Check grading helpers
+        run: python -m pytest .tests/test_erd_helpers.py -q
 
       # Тесты для первой задачи (библиотека)
       - name: Check library entities count

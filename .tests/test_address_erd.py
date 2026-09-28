@@ -1,31 +1,14 @@
-import pytest
-import re
-
-def read_puml_file(file_path):
-    with open(file_path, 'r', encoding='utf-8') as file:
-        return file.read()
-
-@pytest.fixture
-def puml_content():
-    return read_puml_file("./src/relationships_address.puml")
-
-def test_address_entity_count(puml_content):
-    """Проверка количества сущностей в диаграмме адресов"""
-    entities = re.findall(r'entity\s+[""]?\w+[""]?', puml_content, re.IGNORECASE)
-    assert len(entities) == 5, \
-        f"Ожидается 5 сущностей, найдено {len(entities)}"
+from erd_helpers import assert_relationships
 
 
-def test_address_relationship_types(puml_content):
-    """Проверка количества различных типов связей"""
+PUML_FILE = "relationships_address.puml"
 
-    one_to_many_pattern = r'(?:\|\||o\|)--(?:o\{|\|\{)'
-    one_to_many = len(re.findall(one_to_many_pattern, puml_content))
-    assert one_to_many == 4, f"Ожидается 5 связей один-ко-многим, найдено {one_to_many}"
 
-    many_to_many = len(re.findall(r'\}o--o\{', puml_content))
-    assert many_to_many == 0, f"Ожидается 1 связь многие-ко-многим, найдено {many_to_many}"
+def test_address_entity_count(diagram):
+    assert diagram.entity_count == 5, (
+        f"Ожидается 5 сущностей, найдено {diagram.entity_count}"
+    )
 
-    one_to_one_pattern = r'(?:\|\||o\||\|o)--(?:\|\||o\||\|o)'
-    one_to_one = len(re.findall(one_to_one_pattern, puml_content))
-    assert one_to_one == 0, f"Ожидается 0 связей один-к-одному, найдено {one_to_one}"
+
+def test_address_relationship_types(diagram):
+    assert_relationships(diagram, one_to_many=4, many_to_many=0)
