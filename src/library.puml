@@ -18,3 +18,95 @@
 планируемая дата возврата и фактическая дата возврата, если экземпляр уже возвращён. Нужно хранить историю выдач,
 в том числе повторных выдач одного экземпляра тому же читателю.
 '/
+
+@startuml Library_ERD
+
+!function $pk($a)
+!return "<color:RoyalBlue>" + $a + " <<PK>></color>"
+!endfunction
+
+!function $unique($a)
+!return "<color:Crimson>" + $a + " <<unique>></color>"
+!endfunction
+
+!function $setBold($a)
+!return "<b>" + $a + " </b>"
+!endfunction
+
+skinparam BackgroundColor SeaShell
+skinparam LegendBackgroundColor MistyRose
+skinparam LegendBorderColor PaleVioletRed
+skinparam LegendFontColor PaleVioletRed
+
+skinparam Class {
+    HeaderBackgroundColor PaleGreen
+}
+skinparam TitleFontColor Sienna
+
+Header Семинар 2: библиотечная система
+Title E/R-диаграмма «Библиотека»
+
+' ------------------------- Сущности -------------------------
+
+entity "$setBold("Книга")" as Book {
+    * $pk("ISBN")
+    * Название
+    * Автор
+    * Год_издания
+    * Количество_страниц
+}
+
+entity "$setBold("Издательство")" as Publisher {
+    * $pk("Название")
+    * Адрес
+}
+
+entity "$setBold("Экземпляр")" as Copy {
+    * $pk("Номер_копии")
+    * Положение_на_полке
+}
+
+entity "$setBold("Категория")" as Category {
+    * $pk("Название")
+}
+
+entity "$setBold("Читатель")" as Reader {
+    * $pk("ID")
+    * Имя
+    * Фамилия
+    * Адрес
+    * Дата_рождения
+}
+
+entity "$setBold("Бронирование")" as Bokking {
+    * Дата_выдачи
+    * Планируемая_дата_возврата
+    * Фактическая_дата_возврата
+}
+
+' ------------------------- Связи -------------------------
+
+Publisher ||--o{ Book : "Выпускает"
+
+Book ||--o{ Copy : "Имеет экземпляры"
+
+Book }o--|{ Category : "Относится к"
+
+Category ||--o{ Category : "Родительская / подкатегория"
+
+Reader ||--o{ Booking : "Оформляет"
+
+Copy ||--o{ Booking : "Выдаётся"
+
+' ------------------------- Легенда -------------------------
+
+legend right
+$setBold("Условные обозначения:")
+|| — ровно один.
+o| или |o — ноль или один.
+o{ или }o — ноль или более.
+|{ или }| — один или более.
+}o--o{ — связь «многие ко многим» с необязательным участием с обеих сторон.
+end legend
+
+@enduml

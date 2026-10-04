@@ -10,3 +10,61 @@
 - Улица находится в одном городе.
 - Город находится в одной стране.
 '/
+
+@startuml Address_ERD
+
+!function $pk($a)
+!return "<color:RoyalBlue>" + $a + " <<PK>></color>"
+!endfunction
+
+!function $unique($a)
+!return "<color:Crimson>" + $a + " <<unique>></color>"
+!endfunction
+
+!function $setBold($a)
+!return "<b>" + $a + " </b>"
+!endfunction
+
+skinparam BackgroundColor SeaShell
+skinparam LegendBackgroundColor MistyRose
+skinparam LegendBorderColor PaleVioletRed
+skinparam LegendFontColor PaleVioletRed
+
+skinparam Class {
+    HeaderBackgroundColor PaleGreen
+}
+skinparam TitleFontColor Sienna
+
+Header Семинар 2: моделирование адресов
+Title E/R-диаграмма «Адреса»
+
+' ------------------------- Сущности -------------------------
+
+entity "$setBold("Квартира")" as Apartment <<weak>>
+entity "$setBold("Дом")" as House <<weak>>
+entity "$setBold("Улица")" as Street <<weak>>
+entity "$setBold("Город")" as City <<weak>>
+entity "$setBold("Страна")" as Country
+
+' ------------------------- Связи -------------------------
+
+House ||--o{ Apartment : "Содержит квартиры"
+
+Street ||--o{ House : "Содержит дома"
+
+City ||--o{ Street : "Содержит улицы"
+
+Country ||--o{ City : "Содержит города"
+
+' ------------------------- Легенда -------------------------
+
+legend right
+$setBold("Условные обозначения:")
+|| — ровно один.
+o| или |o — ноль или один.
+o{ или }o — ноль или более.
+|{ или }| — один или более.
+}o--o{ — связь «многие ко многим» с необязательным участием с обеих сторон.
+end legend
+
+@enduml

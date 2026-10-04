@@ -9,3 +9,57 @@
 - У человека может быть один ребёнок, несколько детей или ни одного.
 - Роли отца и матери должны быть различимы на диаграмме.
 '/
+
+@startuml Parents_ERD
+
+!function $pk($a)
+!return "<color:RoyalBlue>" + $a + " <<PK>></color>"
+!endfunction
+
+!function $unique($a)
+!return "<color:Crimson>" + $a + " <<unique>></color>"
+!endfunction
+
+!function $setBold($a)
+!return "<b>" + $a + " </b>"
+!endfunction
+
+skinparam BackgroundColor SeaShell
+skinparam LegendBackgroundColor MistyRose
+skinparam LegendBorderColor PaleVioletRed
+skinparam LegendFontColor PaleVioletRed
+
+skinparam Class {
+    HeaderBackgroundColor PaleGreen
+}
+skinparam TitleFontColor Sienna
+
+Header Семинар 2: родственные связи
+Title E/R-диаграмма «Родители и дети»
+
+' ------------------------- Сущности -------------------------
+
+entity "$setBold("Мужчина")" as Man
+entity "$setBold("Женщина")" as Woman
+
+' ------------------------- Связи -------------------------
+Woman |o--o{ Woman : "Мать"
+
+Man |o--o{ Man : "Отец"
+
+Woman |o--o{ Man : "Мать"
+
+Man |o--o{ Woman : "Отец"
+
+' ------------------------- Легенда -------------------------
+
+legend right
+$setBold("Условные обозначения:")
+|| — ровно один.
+o| или |o — ноль или один.
+o{ или }o — ноль или более.
+|{ или }| — один или более.
+}o--o{ — связь «многие ко многим» с необязательным участием с обеих сторон.
+end legend
+
+@enduml
