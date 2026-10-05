@@ -18,3 +18,81 @@
 планируемая дата возврата и фактическая дата возврата, если экземпляр уже возвращён. Нужно хранить историю выдач,
 в том числе повторных выдач одного экземпляра тому же читателю.
 '/
+
+@startuml ERD_Example
+
+!function $pk($a)
+!return "<color:RoyalBlue>" + $a + " <<PK>></color>"
+!endfunction
+
+!function $unique($a)
+!return "<color:Crimson>" + $a + " <<unique>></color>"
+!endfunction
+
+!function $setBold($a)
+!return "<b>" + $a + " </b>"
+!endfunction
+
+skinparam BackgroundColor SeaShell
+skinparam LegendBackgroundColor MistyRose
+skinparam LegendBorderColor PaleVioletRed
+skinparam LegendFontColor PaleVioletRed
+
+skinparam Class {
+    HeaderBackgroundColor PaleGreen
+}
+
+skinparam TitleFontColor Sienna
+
+Header Пример E/R-диаграммы
+Title E/R-диаграмма «Библиотечная система»
+
+'---------- Сущности ----------'
+
+entity "$setBold("Читатель")" as User {
+    $pk("идентификатор")
+    имя
+    фамилия
+    адрес
+    дата_рождения
+}
+
+entity "$setBold("Заказ")" as Order {
+    дата_выдачи
+    планируемая_дата_возврата
+    фактическая_дата_возврата
+}
+
+entity "$setBold("Издание")" as Publication {
+    $pk("ISBN")
+    название
+    автор
+    год_издания
+    количество_страниц
+}
+
+entity "$setBold("Издательство")" as Publisher {
+    $pk("название")
+    адрес
+}
+
+entity "$setBold("Экземпляр")" as Book {
+    $pk("ISBN")
+    $pk("номер_копии")
+    место
+}
+
+entity "$setBold("Категория")" as Category {
+    $pk("название")
+}
+
+'---------- Связи ----------'
+
+User ||--o{ Order : "Имеет"
+Publisher ||--o{ Publication : "Выпускает"
+Publication ||--o{ Book : "Имеет"
+Publication }|--|{ Category : "Относится к"
+Category ||--o{ Category : "Содержит"
+Book ||--o{ Order : "Выдается"
+
+@enduml

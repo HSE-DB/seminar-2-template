@@ -9,3 +9,37 @@
 - У человека может быть один ребёнок, несколько детей или ни одного.
 - Роли отца и матери должны быть различимы на диаграмме.
 '/
+
+@startuml ERD_Example
+
+!function $setBold($a)
+!return "<b>" + $a + " </b>"
+!endfunction
+
+skinparam BackgroundColor SeaShell
+
+skinparam Class {
+    HeaderBackgroundColor PaleGreen
+}
+
+skinparam TitleFontColor Sienna
+
+Header Пример E/R-диаграммы
+Title E/R-диаграмма «Родственные связи»
+
+
+'---------- Сущности ----------'
+
+entity "$setBold("Человек")" as Person
+entity "$setBold("Отец")" as Father
+entity "$setBold("Мать")" as Mother
+entity "$setBold("Ребенок")" as Child
+
+
+'---------- Связи ----------'
+
+Person ||--o{ Father : "Имеет"
+Person ||--o{ Mother : "Имеет"
+Person }o--|{ Child : "Имеет"
+
+@enduml
