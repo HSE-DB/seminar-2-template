@@ -1,12 +1,54 @@
-/'
-Источник требований: README.md
+@startuml ERD_Example
 
-Адреса
+!function $pk($a)
+!return "<color:RoyalBlue>" + $a + " <<PK>></color>"
+!endfunction
 
-Нарисуйте E/R-диаграммы с указанием кратностей связей. Используйте только сущности, указанные в условиях. Атрибуты не добавляйте.
+!function $unique($a)
+!return "<color:Crimson>" + $a + " <<unique>></color>"
+!endfunction
 
-- Квартира находится в одном доме.
-- Дом расположен на одной улице.
-- Улица находится в одном городе.
-- Город находится в одной стране.
-'/
+!function $setBold($a)
+!return "<b>" + $a + " </b>"
+!endfunction
+
+skinparam BackgroundColor SeaShell
+skinparam LegendBackgroundColor MistyRose
+skinparam LegendBorderColor PaleVioletRed
+skinparam LegendFontColor PaleVioletRed
+
+skinparam Class {
+    HeaderBackgroundColor PaleGreen
+}
+skinparam TitleFontColor Sienna
+
+Header Пример E/R-диаграммы
+Title Задание 2.
+
+' ------------------------- Сущности -------------------------
+
+entity "Квартира" as Apartment
+entity "Дом" as House
+entity "Улица" as Street
+entity "Город" as City
+entity "Страна" as Country
+
+' ------------------------- Связи -------------------------
+
+
+Country ||--o{ City : "Содержит"
+City ||--o{ Street : "Содержит"
+Street ||--o{ House : "Содержит"
+House ||--o{ Apartment : "Содержит"
+
+' ------------------------- Легенда -------------------------
+legend right
+$setBold("Условные обозначения:")
+|| — ровно один.
+o| или |o — ноль или один.
+o{ или }o — ноль или более.
+|{ или }| — один или более.
+}o--o{ — связь «многие ко многим» с необязательным участием с обеих сторон.
+end legend
+
+@enduml
