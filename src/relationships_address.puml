@@ -10,3 +10,22 @@
 - Улица находится в одном городе.
 - Город находится в одной стране.
 '/
+
+@startuml address
+
+skinparam entity<<weak>> {
+    BorderThickness 3
+}
+
+entity "Страна" as Country
+entity "Город" as City <<weak>>
+entity "Улица" as Street <<weak>>
+entity "Дом" as House <<weak>>
+entity "Квартира" as Flat <<weak>>
+
+Country ||--o{ City
+City ||--o{ Street
+Street ||--o{ House
+House ||--o{ Flat
+
+@enduml

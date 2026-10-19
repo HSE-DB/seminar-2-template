@@ -9,3 +9,15 @@
 - У человека может быть один ребёнок, несколько детей или ни одного.
 - Роли отца и матери должны быть различимы на диаграмме.
 '/
+
+@startuml parents
+
+entity "Мужчина" as Man
+entity "Женщина" as Woman
+
+Man |o--o{ Man : "Отец"
+Man |o--o{ Woman : "Отец"
+Woman |o--o{ Woman : "Мать"
+Woman |o--o{ Man : "Мать"
+
+@enduml

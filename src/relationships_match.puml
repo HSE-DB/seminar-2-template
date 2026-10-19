@@ -10,3 +10,15 @@
 - Команда может участвовать в неограниченном числе матчей.
 - Арбитр может судить разные матчи.
 '/
+
+@startuml match
+
+entity "Арбитр" as Referee
+entity "Матч" as Match
+entity "Команда" as Team
+
+Referee |o--|{ Match
+Team |o--|{ Match
+Team |o--|{ Match
+
+@enduml
