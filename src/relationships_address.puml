@@ -10,3 +10,39 @@
 - Улица находится в одном городе.
 - Город находится в одной стране.
 '/
+
+@startuml ERD_Example
+
+!function $setBold($a)
+!return "<b>" + $a + " </b>"
+!endfunction
+
+skinparam BackgroundColor SeaShell
+
+skinparam Class {
+    HeaderBackgroundColor PaleGreen
+}
+
+skinparam TitleFontColor Sienna
+
+Header Пример E/R-диаграммы
+Title E/R-диаграмма «Адреса»
+
+
+'---------- Сущности ----------'
+
+entity "$setBold("Квартира")" as Flat {}
+entity "$setBold("Дом")" as House {}
+entity "$setBold("Улица")" as Street {}
+entity "$setBold("Город")" as Town {}
+entity "$setBold("Страна")" as Country {}
+
+
+'---------- Связи ----------'
+
+Flat }o--|| House : "Находится"
+House }o--|| Street : "Расположен"
+Street }o--|| Town : "Находится"
+Town }o--|| Country : "Находится"
+
+@enduml

@@ -10,3 +10,35 @@
 - Команда может участвовать в неограниченном числе матчей.
 - Арбитр может судить разные матчи.
 '/
+
+@startuml ERD_Example
+
+!function $setBold($a)
+!return "<b>" + $a + " </b>"
+!endfunction
+
+skinparam BackgroundColor SeaShell
+
+skinparam Class {
+    HeaderBackgroundColor PaleGreen
+}
+
+skinparam TitleFontColor Sienna
+
+Header Пример E/R-диаграммы
+Title E/R-диаграмма «Спортивные матчи»
+
+
+'---------- Сущности ----------'
+
+entity "$setBold("Матч")" as Match {}
+entity "$setBold("Команда")" as Team {}
+entity "$setBold("Арбитр")" as Arbitrator {}
+
+
+'---------- Связи ----------'
+
+Team }|--|{ Match : "Участвует"
+Arbitrator ||--o{ Match : "Судит"
+
+@enduml
